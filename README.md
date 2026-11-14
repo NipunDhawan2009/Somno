@@ -12,7 +12,7 @@
   </p>
   <p>
     <strong><a href="https://NipunDhawan2009.github.io/Somno/">Website</a></strong> ·
-    <strong><a href="https://github.com/NipunDhawan2009/Somno/releases/download/v27/somno-v27-release.apk">Download APK</a></strong> ·
+    <strong><a href="https://github.com/NipunDhawan2009/Somno/releases/download/v27/somno-v27.apk">Download APK</a></strong> ·
     <strong><a href="https://github.com/NipunDhawan2009/Somno/releases/tag/v27">Release</a></strong>
   </p>
 </div>
@@ -23,7 +23,7 @@ Instead of treating sleep as a single number, Somno models fatigue as a changing
 
 ### Android builds
 
-**[Download APK](https://github.com/NipunDhawan2009/Somno/releases/download/v27/somno-v27-release.apk)** · **[Download AAB](https://github.com/NipunDhawan2009/Somno/releases/download/v27/somno-v27-release.aab)** · **[Somno v27 release](https://github.com/NipunDhawan2009/Somno/releases/tag/v27)**
+**[Download APK](https://github.com/NipunDhawan2009/Somno/releases/download/v27/somno-v27.apk)** · **[Download AAB](https://github.com/NipunDhawan2009/Somno/releases/download/v27/somno-v27-release.aab)** · **[Somno v27 release](https://github.com/NipunDhawan2009/Somno/releases/tag/v27)**
 
 ## Product preview
 
