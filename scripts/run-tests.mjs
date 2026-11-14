@@ -1,6 +1,6 @@
 import { readdirSync, existsSync } from 'node:fs';
 import { spawnSync } from 'node:child_process';
-import { fileURLToPath } from 'node:url';
+import { fileURLToPath, pathToFileURL } from 'node:url';
 import { dirname, join } from 'node:path';
 // Flags come from the shared launcher, so `npm test` and every other TypeScript script agree about
 // what the running Node needs. This logic used to live only here, which is exactly why
@@ -27,6 +27,8 @@ import { nodeFlags, SUPPORTED_NODE } from './run-ts.mjs';
 const here = dirname(fileURLToPath(import.meta.url));
 const root = join(here, '..');
 const loader = join(here, 'resolve-ts.mjs');
+// `--import` parses a bare Windows path as a URL with a drive-letter scheme.
+const loaderUrl = pathToFileURL(loader).href;
 
 // Fail loudly rather than run every suite into the same unreadable module error. Without the
 // loader, node cannot import a .ts file at all, and fifteen identical stack traces are a worse
@@ -72,7 +74,7 @@ for (const file of suites) {
   const started = Date.now();
   const run = spawnSync(
     process.execPath,
-    [...FLAGS, '--import', loader, join(here, file)],
+    [...FLAGS, '--import', loaderUrl, join(here, file)],
     { cwd: root, stdio: 'inherit' }
   );
   results.push({

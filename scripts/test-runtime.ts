@@ -182,21 +182,20 @@ console.log('\nthe TypeScript launcher agrees with the Node it is given');
   /**
    * The supported range is the *intersection* of two requirements, and the stricter one wins.
    *
-   * React Native 0.86 and Metro declare `^20.19.4 || ^22.13.0 || ^24.3.0 || >= 25`, so nothing below
-   * 22.13 can bundle the app; these scripts need type stripping, which Node 20 does not have at all.
-   * `engines` used to say `>=22.6` — a number taken from the stripping requirement alone, which
-   * quietly claimed support for versions Metro refuses to start on.
+   * React Native 0.86 and Metro declare `^20.19.4 || ^22.13.0 || ^24.3.0 || >= 25`, but these
+   * scripts need `module.registerHooks`, which only arrives in Node 22.15.0. The project therefore
+   * supports Node 22.15+ within the 22.x branch, Node 24.3+, and Node 25+.
    */
-  check('the floor is where Metro starts, not where stripping starts', nodeSupported('22.13.0') && !nodeSupported('22.12.0'));
+  check('the floor is where registerHooks arrives, not where Metro starts', nodeSupported('22.15.0') && !nodeSupported('22.14.0'));
   check('the Node 20 branch React Native allows is not one this repo has', !nodeSupported('20.19.4'));
   check('24 is supported from 24.3', nodeSupported('24.3.0') && !nodeSupported('24.2.0'));
   check('and everything from 25 up', nodeSupported('25.0.0') && nodeSupported('26.4.1'));
 
   check('modern node needs no strip flag', !(nodeFlags('24.3.0') ?? []).includes('--experimental-strip-types'));
   check('22.18 needs none either', !(nodeFlags('22.18.0') ?? []).includes('--experimental-strip-types'));
-  check('22.13 through 22.17 does', (nodeFlags('22.13.0') ?? []).includes('--experimental-strip-types'));
-  check('an unsupported version is refused rather than mis-flagged', nodeFlags('22.12.0') === null && nodeFlags('20.19.4') === null);
-  check('every supported version quietens the warning', (nodeFlags('22.13.0') ?? []).includes('--no-warnings'));
+  check('22.15 through 22.17 does', (nodeFlags('22.15.0') ?? []).includes('--experimental-strip-types'));
+  check('an unsupported version is refused rather than mis-flagged', nodeFlags('22.14.0') === null && nodeFlags('20.19.4') === null);
+  check('every supported version quietens the warning', (nodeFlags('22.15.0') ?? []).includes('--no-warnings'));
 
   // package.json and the launcher have to say the same thing, or one of them is decoration.
   const engines = JSON.parse(readFileSync('package.json', 'utf8')).engines?.node;

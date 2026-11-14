@@ -1,6 +1,6 @@
 import { spawnSync } from 'node:child_process';
 import { existsSync } from 'node:fs';
-import { fileURLToPath } from 'node:url';
+import { fileURLToPath, pathToFileURL } from 'node:url';
 import { dirname, join, resolve } from 'node:path';
 
 /**
@@ -60,7 +60,10 @@ if (invokedDirectly) {
     console.error(`Node ${process.versions.node} is not supported. Somno needs Node ${SUPPORTED_NODE}.`);
     process.exit(1);
   }
-  const run = spawnSync(process.execPath, [...flags, '--import', loader, target, ...rest], {
+  // `--import` expects a URL. A bare Windows path such as `D:\...` is parsed as a URL scheme, so
+  // convert it here rather than assuming the POSIX path CI happens to run with.
+  const loaderUrl = pathToFileURL(loader).href;
+  const run = spawnSync(process.execPath, [...flags, '--import', loaderUrl, target, ...rest], {
     stdio: 'inherit',
     cwd: join(here, '..'),
   });
